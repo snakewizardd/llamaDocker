@@ -1,0 +1,20 @@
+Continuous Integration (CI)
+Continuous Deployment (CD)
+Automation
+Infrastructure as Code (IaC)
+Version Control
+Microservices
+Agile Development
+Docker
+Kubernetes
+Monitoring and Logging
+Configuration Management
+Release Management
+Cloud Computing
+DevOps Culture
+Scalability
+
+
+____
+
+Comment at length about, in article format:
