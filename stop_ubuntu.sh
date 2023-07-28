@@ -1,2 +1,4 @@
 docker stop ubuntu_llama_container
+docker stop ubuntu_llama_container_server 
+docker stop ubuntu_llama_container_node
 yes| docker container prune

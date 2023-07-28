@@ -1,0 +1,9 @@
+{
+    "name": "chatApp",
+    "version": "1.0.0",
+    "description": "Your app description",
+    "main": "chatApp.mjs",
+    "dependencies": {
+      "node-fetch": "^2.6.1"
+    }
+  }

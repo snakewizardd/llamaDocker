@@ -1,0 +1,33 @@
+version: "3"
+
+networks:
+  backend-network:  # User-defined bridge network for the backend services
+    driver: bridge
+
+services:
+  ttyd-container:
+    image: ubuntu_llama_image
+    container_name: ubuntu_llama_container_server
+    working_dir: /home/llama.cpp_dir/
+    build:
+      context: .
+      dockerfile: DockerfileUbuntu.dockerfile
+    networks:
+      - backend-network 
+    ports:
+      - "8080:8080"
+    command: ./server -m ./models/7B/ggml-model-q4_0.bin --ctx-size 1800 -t 6 
+
+
+  nodejs-container:
+    image: nubuntu_llama_image
+    container_name: ubuntu_llama_container_node
+    working_dir: /home/llama.cpp_dir/
+    build:
+      context: .
+      dockerfile: DockerfileUbuntu.dockerfile
+    networks:
+      - backend-network
+    ports:
+      - "3000:3000"
+    command: ./server -m ./models/7B/ggml-model-q4_0.bin --ctx-size 1800 -t 6 

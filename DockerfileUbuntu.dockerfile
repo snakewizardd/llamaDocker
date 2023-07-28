@@ -22,6 +22,13 @@ RUN make && make install
 
 RUN yes | sudo apt install curl
 
+RUN curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+RUN sudo apt-get install -y nodejs
+
+RUN npm install -g pm2
+RUN npm install -g node-fetch
+
+
 RUN mkdir /home/llama.cpp_dir
 COPY ./llama.cpp_dir/ /home/llama.cpp_dir
 
@@ -34,4 +41,18 @@ RUN chmod 555 runprogram.sh
 WORKDIR /home/llama.cpp_dir/
 #CMD ttyd --writable bash -c "./runprogram.sh"
 
-CMD ./server -m ./models/7B/ggml-model-q4_0.bin
+WORKDIR /
+COPY ./package.json /home/llama.cpp_dir/examples/server
+COPY ./chatApp.mjs /home/llama.cpp_dir/examples/server
+
+WORKDIR /home/llama.cpp_dir/examples/server 
+RUN npm install 
+
+WORKDIR / 
+WORKDIR /home/llama.cpp_dir/
+
+
+EXPOSE 8080
+EXPOSE 3000 
+#CMD ./server -m ./models/7B/ggml-model-q4_0.bin & node ./examples/server/chatApp.mjs
+#CMD ./server -m ./models/7B/ggml-model-q4_0.bin 

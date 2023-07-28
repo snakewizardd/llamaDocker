@@ -2,7 +2,7 @@ import * as readline from 'node:readline'
 import { stdin, stdout } from 'node:process'
 import fetch from 'node-fetch';
 
-const API_URL = 'http://127.0.0.1:8080'
+const API_URL = 'http://172.20.0.2:8080'
 
 const chat = [
     {
