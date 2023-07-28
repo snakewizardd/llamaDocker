@@ -27,7 +27,7 @@ llamaData <- function(
   penalize_nl = TRUE,
   presence_penalty = 0.0,
   frequency_penalty = 0.0,
-  mirostat = "Disabled",
+  mirostat = 0,
   mirostat_tau = 5.0,
   mirostat_eta = 0.1,
   seed = -1,
@@ -50,30 +50,23 @@ llamaData <- function(
     `penalize_nl` = as.logical(penalize_nl),
     `presence_penalty` = as.numeric(presence_penalty),
     `frequency_penalty` = as.numeric(frequency_penalty),
-    `mirostat` = match.arg(as.character(mirostat), c("Disabled", "Mirostat", "Mirostat 2.0")),
+    `mirostat` = match.arg(as.character(mirostat), c(0, 1, 2)),
     `mirostat_tau` = as.numeric(mirostat_tau),
     `mirostat_eta` = as.numeric(mirostat_eta),
     `seed` = as.integer(seed),
     `ignore_eos` = as.logical(ignore_eos),
     `logit_bias` = if (length(logit_bias) > 2) jsonlite::fromJSON(logit_bias) else jsonlite::fromJSON(sprintf("[ %s ]", as.character(logit_bias)))
   )
-  
-  data <- rjson::toJSON(input_values)
+   data <- rjson::toJSON(input_values)
   response <- httr::POST(url, httr::add_headers(.headers = headers), httr::content_type("application/json"), body = data)
   return(content(response))  # Return as a character vector
-}
 
+}
 
 ui <- dashboardPage(
   dashboardHeader(title = "Llama2 Generator"),
   dashboardSidebar(
-    numericInput("temperature_input", "Temperature", value = 0.8),
-    numericInput("top_k_input", "Top K", value = 40),
-    numericInput("top_p_input", "Top P", value = 0.9),
-    numericInput("n_predict_input", "Number of Tokens to Predict", value = 128),
-    numericInput("n_keep_input", "Number of Tokens to Keep", value = 0),
     checkboxInput("stream_input", "Enable Stream", value = FALSE),
-    textInput("prompt_input", "Prompt", value = ""),
     textInput("stop_input", "Stop Words (comma-separated)", value = ""),
     numericInput("tfs_z_input", "TFS Z", value = 1.0),
     numericInput("typical_p_input", "Typical P", value = 1.0),
@@ -82,16 +75,77 @@ ui <- dashboardPage(
     checkboxInput("penalize_nl_input", "Penalize Newline Tokens", value = TRUE),
     numericInput("presence_penalty_input", "Presence Penalty", value = 0.0),
     numericInput("frequency_penalty_input", "Frequency Penalty", value = 0.0),
-    selectInput("mirostat_input", "Mirostat", choices = c("Disabled", "Mirostat", "Mirostat 2.0"), selected = "Disabled"),
+    selectInput("mirostat_input", "Mirostat", choices = c(0,1,2), selected = 0),
     numericInput("mirostat_tau_input", "Mirostat Tau", value = 5.0),
     numericInput("mirostat_eta_input", "Mirostat Eta", value = 0.1),
     numericInput("seed_input", "Random Seed", value = -1),
     checkboxInput("ignore_eos_input", "Ignore End of Stream Token", value = FALSE),
-    textInput("logit_bias_input", "Logit Bias", value = ""),
-    actionButton("submit_btn", "Update")
+    textInput("logit_bias_input", "Logit Bias", value = "")
   ),
   dashboardBody(
-    withSpinner(verbatimTextOutput("apiOutput"))
+    tags$head(
+      tags$style(HTML("
+        .prompt-section {
+          font-family: Consolas, monospace;
+          font-size: 16px;
+          background-color: #f1f1f1;
+          border: 1px solid #ddd;
+          padding: 15px;
+          height: 200px;
+          overflow-y: auto;
+        }
+        #submit_btn {
+          font-size: 16px;
+          background-color: #4CAF50;
+          border: none;
+          color: white;
+          padding: 10px 16px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          margin: 4px 2px;
+          cursor: pointer;
+          border-radius: 4px;
+        }
+        #apiOutput {
+          font-family: Consolas, monospace;
+          font-size: 16px;
+          background-color: #f9f9f9;
+          border: 1px solid #ddd;
+          padding: 15px;
+          height: 500px;
+          overflow-y: auto;
+          white-space: pre-wrap;
+        }
+      "))
+    ),
+    fluidRow(
+      column(
+        width = 6,
+        h4("Text Generation"),
+        tags$div(
+          class = "prompt-section",
+          textAreaInput("prompt_input", "Prompt", value = "", rows = 10)
+        ),
+        br(),
+        actionButton("submit_btn", "Update"),
+        br(),
+        h4('Llama2 Output'),
+        withSpinner(
+          verbatimTextOutput("apiOutput")
+        )
+      ),
+      column(
+        width = 6,
+        h4("Settings"),
+        numericInput("temperature_input", "Temperature", value = 0.8),
+        numericInput("top_k_input", "Top K", value = 40),
+        numericInput("top_p_input", "Top P", value = 0.9),
+        numericInput("n_predict_input", "Number of Tokens to Predict", value = 128),
+        numericInput("n_keep_input", "Number of Tokens to Keep", value = 0)
+      )
+    )
+  
   )
 )
 
