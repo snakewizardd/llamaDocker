@@ -42,6 +42,28 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezon
 
 RUN yes | sudo apt install --no-install-recommends r-base
 
+RUN yes | sudo apt install libcurl4-gnutls-dev \
+            libcairo2-dev \
+            libxt-dev \
+            libssl-dev \
+            libssh2-1-dev
+
+RUN R -e "install.packages('httr', repos ='http://cran.rstudio.com/')"
+RUN R -e "install.packages('jsonlite', repos ='http://cran.rstudio.com/')"
+RUN R -e "install.packages('shiny', repos ='http://cran.rstudio.com/')"
+RUN R -e "install.packages('rjson', repos ='http://cran.rstudio.com/')"
+RUN R -e "install.packages('shinycssloaders', repos ='http://cran.rstudio.com/')"
+RUN R -e "install.packages('shinydashboard', repos ='http://cran.rstudio.com/')"
+RUN R -e "install.packages('shinyWidgets', repos ='http://cran.rstudio.com/')"
+RUN R -e "install.packages('dplyr', repos ='http://cran.rstudio.com/')"
+RUN R -e "install.packages('tidyverse', repos ='http://cran.rstudio.com/')"
+RUN R -e "install.packages('plotly', repos ='http://cran.rstudio.com/')"
+RUN R -e "install.packages('DT', repos ='http://cran.rstudio.com/')"
+RUN R -e "install.packages('data.table', repos ='http://cran.rstudio.com/')"
+RUN R -e "install.packages('stringr', repos ='http://cran.rstudio.com/')"
+RUN R -e "install.packages('ggplot2', repos ='http://cran.rstudio.com/')"
+
+
 RUN mkdir /home/llama.cpp_dir
 COPY ./llama.cpp_dir/ /home/llama.cpp_dir
 
@@ -57,7 +79,13 @@ WORKDIR /home/llama.cpp_dir/
 WORKDIR /
 COPY ./package.json /home/llama.cpp_dir/examples/server
 COPY ./chatApp.mjs /home/llama.cpp_dir/examples/server
+COPY ./app.R /home/llama.cpp_dir/
 
+COPY ./startup.sh /home/llama.cpp_dir
+WORKDIR /home/llama.cpp_dir
+RUN chmod 555 startup.sh 
+
+WORKDIR /
 WORKDIR /home/llama.cpp_dir/examples/server 
 RUN npm install 
 
@@ -67,5 +95,8 @@ WORKDIR /home/llama.cpp_dir/
 
 EXPOSE 8080
 EXPOSE 3000 
+EXPOSE 3838
+
+CMD ["/home/llama.cpp_dir/startup.sh"]
 #CMD ./server -m ./models/7B/ggml-model-q4_0.bin & node ./examples/server/chatApp.mjs
 #CMD ./server -m ./models/7B/ggml-model-q4_0.bin 

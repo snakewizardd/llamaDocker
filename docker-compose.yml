@@ -5,7 +5,7 @@ networks:
     driver: bridge
 
 services:
-  ttyd-container:
+  server-container:
     image: ubuntu_llama_image
     container_name: ubuntu_llama_container_server
     working_dir: /home/llama.cpp_dir/
@@ -16,12 +16,11 @@ services:
       - backend-network 
     ports:
       - "8080:8080"
-    command: ./server -m ./models/7B/ggml-model-q4_0.bin --ctx-size 1800 -t 6 
+      - "3838:3838"
 
-
-  nodejs-container:
+  rshiny-container:
     image: ubuntu_llama_image
-    container_name: ubuntu_llama_container_node
+    container_name: ubuntu_llama_container_rshiny
     working_dir: /home/llama.cpp_dir/
     build:
       context: .
@@ -29,5 +28,7 @@ services:
     networks:
       - backend-network
     ports:
-      - "3000:3000"
-    command: ./server -m ./models/7B/ggml-model-q4_0.bin --ctx-size 1800 -t 6 
+      - "1111:1111"
+    command: echo 'hello'
+
+
