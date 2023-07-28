@@ -73,7 +73,7 @@ COPY ./runprogram.sh /home/llama.cpp_dir
 WORKDIR /home/llama.cpp_dir
 RUN chmod 555 runprogram.sh 
 
-WORKDIR /home/llama.cpp_dir/
+#WORKDIR /home/llama.cpp_dir/
 #CMD ttyd --writable bash -c "./runprogram.sh"
 
 WORKDIR /
