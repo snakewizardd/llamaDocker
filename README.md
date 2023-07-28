@@ -17,4 +17,4 @@ The Docker compose build also starts up the rshiny application found in this rep
 The shinyapp contains controls for all of the API inputs allowed
 
 ![image](https://github.com/snakewizardd/llamaDocker/assets/83378208/e58ae0d9-9152-4380-bd3c-3b75138e56d5)
-![image](https://github.com/snakewizardd/llamaDocker/assets/83378208/6e3bef8f-fc36-4fe3-8546-f731ac329bac)
+![image](https://github.com/snakewizardd/llamaDocker/assets/83378208/9cd53c18-aede-48c2-af5a-9e5d351a9245)
