@@ -94,7 +94,7 @@ WORKDIR /home/llama.cpp_dir/
 
 
 EXPOSE 8080
-EXPOSE 3000 
+#EXPOSE 3000 
 EXPOSE 3838
 
 CMD ["/home/llama.cpp_dir/startup.sh"]
