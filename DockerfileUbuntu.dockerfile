@@ -28,6 +28,13 @@ RUN sudo apt-get install -y nodejs
 RUN npm install -g pm2
 RUN npm install -g node-fetch
 
+# update indices
+RUN sudo apt update -qq
+RUN yes | sudo apt install --no-install-recommends software-properties-common dirmngr
+RUN yes | sudo apt install wget
+RUN wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+RUN yes | sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+RUN yes | sudo apt install --no-install-recommends r-base
 
 RUN mkdir /home/llama.cpp_dir
 COPY ./llama.cpp_dir/ /home/llama.cpp_dir
