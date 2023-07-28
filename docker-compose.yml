@@ -18,17 +18,4 @@ services:
       - "8080:8080"
       - "3838:3838"
 
-  rshiny-container:
-    image: ubuntu_llama_image
-    container_name: ubuntu_llama_container_rshiny
-    working_dir: /home/llama.cpp_dir/
-    build:
-      context: .
-      dockerfile: DockerfileUbuntu.dockerfile
-    networks:
-      - backend-network
-    ports:
-      - "1111:1111"
-    command: echo 'hello'
-
 

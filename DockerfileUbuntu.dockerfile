@@ -77,8 +77,8 @@ WORKDIR /home/llama.cpp_dir/
 #CMD ttyd --writable bash -c "./runprogram.sh"
 
 WORKDIR /
-COPY ./package.json /home/llama.cpp_dir/examples/server
-COPY ./chatApp.mjs /home/llama.cpp_dir/examples/server
+#COPY ./package.json /home/llama.cpp_dir/examples/server
+#COPY ./chatApp.mjs /home/llama.cpp_dir/examples/server
 COPY ./app.R /home/llama.cpp_dir/
 
 COPY ./startup.sh /home/llama.cpp_dir
