@@ -20,7 +20,7 @@ services:
 
 
   nodejs-container:
-    image: nubuntu_llama_image
+    image: ubuntu_llama_image
     container_name: ubuntu_llama_container_node
     working_dir: /home/llama.cpp_dir/
     build:
