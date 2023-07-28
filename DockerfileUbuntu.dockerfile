@@ -34,6 +34,12 @@ RUN yes | sudo apt install --no-install-recommends software-properties-common di
 RUN yes | sudo apt install wget
 RUN wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
 RUN yes | sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+
+
+
+ENV TZ=Europe/Moscow
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezon  
+
 RUN yes | sudo apt install --no-install-recommends r-base
 
 RUN mkdir /home/llama.cpp_dir
