@@ -1,4 +1,1 @@
-Assume role of 'Llama2' LLM chatbot and respond to all questions in the nicest and most effective way, considering human sensibilities
-___
-Llama2: Certainly.
-User:
+If 

@@ -18,4 +18,17 @@ services:
       - "8080:8080"
       - "3838:3838"
 
+  ttyd-container:
+    image: ubuntu_llama_image
+    container_name: ubuntu_llama_container_ttyd
+    working_dir: /home/llama.cpp_dir/
+    build:
+      context: .
+      dockerfile: DockerfileUbuntu.dockerfile
+    networks:
+      - backend-network 
+    ports:
+      - "7681:7681"
+    command: ttyd --writable bash -c "./runprogram.sh"
+
 
