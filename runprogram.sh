@@ -2,7 +2,7 @@
 #./main -m ./models/7B/ggml-model-q4_0.bin -n 1024 --repeat-penalty 1.0 --instruct --color -i -r "User:" -f ./prompts/blank.txt
 
 #./main -m ./models/7B/ggml-model-q4_0.bin --interactive-first --prompt "As a large language model I can offer my services to you as "
-./main -m ./models/7B/ggml-model-q4_0.bin \
+./server -m ./models/7B/ggml-model-q4_0.bin \
 -n 5000 \
 --n-predict 5000 \
 -c 1800 \

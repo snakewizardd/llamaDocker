@@ -20,6 +20,8 @@ WORKDIR /ttyd/build
 RUN cmake ..
 RUN make && make install 
 
+RUN yes | sudo apt install curl
+
 RUN mkdir /home/llama.cpp_dir
 COPY ./llama.cpp_dir/ /home/llama.cpp_dir
 
@@ -30,4 +32,6 @@ WORKDIR /home/llama.cpp_dir
 RUN chmod 555 runprogram.sh 
 
 WORKDIR /home/llama.cpp_dir/
-CMD ttyd --writable bash -c "./runprogram.sh"
+#CMD ttyd --writable bash -c "./runprogram.sh"
+
+CMD ./server -m ./models/7B/ggml-model-q4_0.bin
