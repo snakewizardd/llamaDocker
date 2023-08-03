@@ -158,9 +158,15 @@ server <- function(input, output,session) {
     data <- data.frame(words = strsplit(apiData()$content, " ")) %>% 
       `colnames<-`('word') %>% 
       group_by(word) %>% 
-      summarize(frequency = length(word))
+      summarize(frequency = length(word)) %>% 
+      arrange(desc(frequency))
 
   data <- data %>% filter(word %in% stop_words == FALSE)
+
+  if(nrow(data)>100){
+
+    data <- data[1:100,]
+  }
     
     plot <- ggplot(
       data,
