@@ -1,0 +1,25 @@
+JSON Blob Analysis:
+
+You have a JSON blob containing information about a user and an API request/response. The blob looks like this:
+
+{
+    "user": "JohnDoe",
+    "api_request": "POST",
+    "api_endpoint": "https://api.example.com/users",
+    "request_body": {
+        "name": "John Doe",
+        "email": "johndoe@example.com",
+        "age": 30,
+        "city": "New York",
+        "interests": ["reading", "traveling", "cooking"]
+    },
+    "answer": {
+        "status": "success",
+        "message": "User created successfully",
+        "user_id": "12345"
+    }
+}
+
+Your task is to analyze the JSON blob and derive the key details from it. Specifically, you need to extract the user's name, email, age, city, interests, API request type (POST, GET, etc.), API endpoint, API request body, API response status, message, and user ID.
+
+Please provide the extracted details in a structured manner.

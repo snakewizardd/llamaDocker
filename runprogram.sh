@@ -1,26 +1,22 @@
 #!/bin/bash
-#./main -m ./models/7B/ggml-model-q4_0.bin -n 1024 --repeat-penalty 1.0 --instruct --color -i -r "User:" -f ./prompts/blank.txt
-
-#./main -m ./models/7B/ggml-model-q4_0.bin --interactive-first --prompt "As a large language model I can offer my services to you as "
 ./main -m ./models/7B/ggml-model-q4_0.bin \
--n 128 \
---n-predict 360 \
--c 512 \
---ctx-size 512 \
+-n 1024 \
+--n-predict 1024 \
+-c 2048 \
+--ctx-size 2048 \
 --keep -1 \
---temp .8 \
+--temp 1.5 \
 --repeat-penalty 1.1 \
 --repeat-last-n -1 \
---color -i -r "User:" \
+--color \
 --top-k 40 \
 --top-p .9 \
 --tfs 1.0 \
 --typical 1 \
 --mirostat 2 \
---mirostat-lr 500 \
+--mirostat-lr .4 \
 --mirostat-ent 5.0 \
 --mlock \
 --batch-size 512 \
---interactive-first \
 -t 6 \
 -f ./prompts/crazy.txt
