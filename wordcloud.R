@@ -7,7 +7,7 @@ library(shinycssloaders)
 library(shinybusy)
 library(shinyWidgets) 
 library(data.table) 
-library(dplyr)
+library(dplyr) 
 
 
 # Define the URL, header, and data
@@ -152,7 +152,7 @@ server <- function(input, output,session) {
       group_by(word) %>% 
       summarize(frequency = length(word))
     
-    ggplot(
+    plot <- ggplot(
       data,
       aes(
         label = word, size = frequency,
@@ -162,6 +162,9 @@ server <- function(input, output,session) {
       geom_text_wordcloud_area() +
       scale_size_area(max_size = 24) +
       theme_minimal()
+    
+    plot
+  
   })
   
 
