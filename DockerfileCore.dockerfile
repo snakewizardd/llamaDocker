@@ -67,8 +67,12 @@ RUN R -e "install.packages('shinyjs', repos ='http://cran.rstudio.com/')"
 RUN R -e "install.packages('shinybusy', repos ='http://cran.rstudio.com/')"
 RUN R -e "install.packages('wordcloud', repos ='http://cran.rstudio.com/')"
 RUN R -e "install.packages('ggwordcloud', repos ='http://cran.rstudio.com/')"
-RUN echo 'hello'
 RUN R -e "install.packages('ggplotly', repos ='http://cran.rstudio.com/')"
+
+
+RUN yes | sudo apt install libxml2-dev
+RUN yes | sudo apt-get install libblas-dev liblapack-dev
+RUN R -e "install.packages('tm', repos ='http://cran.rstudio.com/')"
 
 
 RUN mkdir /home/llama.cpp_dir

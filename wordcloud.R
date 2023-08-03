@@ -8,6 +8,7 @@ library(shinybusy)
 library(shinyWidgets) 
 library(data.table) 
 library(dplyr) 
+library(tm)
 
 
 # Define the URL, header, and data
@@ -64,7 +65,7 @@ llamaData <- function(
   )
   data <- rjson::toJSON(input_values)
   response <- httr::POST(url, httr::add_headers(.headers = headers), httr::content_type("application/json"), body = data)
-  return(content(response))  # Return as a character vector
+  return(httr::content(response))  # Return as a character vector
   
 }
 # Shiny UI
@@ -127,6 +128,10 @@ ui <- fluidPage(
   )
 )
 
+
+stop_words <- stopwords("en")
+
+
 # Shiny Server
 server <- function(input, output,session) {
   
@@ -146,11 +151,16 @@ server <- function(input, output,session) {
     apiData()$content
   })
   
+
+
+
   output$wordcloud_output <- renderPlot({
     data <- data.frame(words = strsplit(apiData()$content, " ")) %>% 
       `colnames<-`('word') %>% 
       group_by(word) %>% 
       summarize(frequency = length(word))
+
+  data <- data %>% filter(word %in% stop_words == FALSE)
     
     plot <- ggplot(
       data,
