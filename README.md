@@ -12,9 +12,7 @@ The image is a ubuntu image that contains
 
 If you create a models folder in llama.cpp and start up the Docker service, it will start an API server for you to talk to Llama2 via llama.cpp/examples/server 
 
-The Docker compose build also starts up the rshiny application found in this repo
-
-The shinyapp contains controls for all of the API inputs allowed
+The Docker compose build starts up a ttyd service, llama.cpp API, and an rshiny app
 
 app.R
 ![image](https://github.com/snakewizardd/llamaDocker/assets/83378208/e58ae0d9-9152-4380-bd3c-3b75138e56d5)
