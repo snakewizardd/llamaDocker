@@ -74,6 +74,16 @@ RUN yes | sudo apt install libxml2-dev
 RUN yes | sudo apt-get install libblas-dev liblapack-dev
 RUN R -e "install.packages('tm', repos ='http://cran.rstudio.com/')"
 
+RUN yes | sudo apt install libharfbuzz-dev
+RUN yes | sudo apt install libfribidi-dev
+RUN yes | sudo apt install libtiff5-dev
+
+RUN R -e "install.packages('devtools')"
+RUN R -e "install.packages('reticulate', repos ='http://cran.rstudio.com/')"
+
+RUN R -e "reticulate::install_miniconda()"
+RUN R -e "devtools::install_github('farach/huggingfaceR')"
+RUN R -e "huggingfaceR::hf_python_depends()"
 
 RUN mkdir /home/llama.cpp_dir
 COPY ./llama.cpp_dir/ /home/llama.cpp_dir
