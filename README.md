@@ -19,5 +19,5 @@ app.R
 ![image](https://github.com/snakewizardd/llamaDocker/assets/83378208/9cd53c18-aede-48c2-af5a-9e5d351a9245)
 
 wordcloud.R
-![image](https://github.com/snakewizardd/llamaDocker/assets/83378208/1af72655-067c-4982-b44f-ec5c255afc52)
+![image](https://github.com/snakewizardd/llamaDocker/assets/83378208/6ec6a49a-41f0-485a-9e38-8b0ec8e3d664)
 
