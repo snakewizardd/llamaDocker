@@ -2,3 +2,4 @@
 ./.local
 .DS_Store
 llama.cpp_dir/models
+hf.R

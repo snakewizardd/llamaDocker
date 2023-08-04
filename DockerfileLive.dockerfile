@@ -14,6 +14,7 @@ WORKDIR /
 #COPY ./chatApp.mjs /home/llama.cpp_dir/examples/server
 COPY ./app.R /home/llama.cpp_dir/
 COPY ./wordcloud.R /home/llama.cpp_dir/
+COPY ./hf.R /home/llama.cpp_dir/
 
 
 COPY ./startup.sh /home/llama.cpp_dir

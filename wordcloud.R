@@ -20,6 +20,7 @@ library(data.table)
 library(dplyr) 
 library(tm) 
 library(shinydashboard)
+library(jpeg)
 
 
 # Define the URL, header, and data
@@ -113,7 +114,7 @@ ui <- fluidPage(
       textOutput('sentimentOutput'),
       verbatimTextOutput("apiOutput"),
       plotOutput("wordcloud_output")
-    )
+          )
   )
 )
 
@@ -135,7 +136,7 @@ server <- function(input, output,session) {
       n_keep = as.integer(input$n_keep_input)
     )
 
-    sentimentCall = distilBERT(llamaDataCall$content) 
+    sentimentCall = distilBERT(llamaDataCall$content)
 
     return(list(llamaDataCall, sentimentCall))
   })
@@ -154,7 +155,6 @@ server <- function(input, output,session) {
     apiData()[[1]]$content
   })
   
-
 
 
   output$wordcloud_output <- renderPlot({

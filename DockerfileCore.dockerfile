@@ -84,6 +84,9 @@ RUN R -e "install.packages('reticulate', repos ='http://cran.rstudio.com/')"
 RUN R -e "reticulate::install_miniconda()"
 RUN R -e "devtools::install_github('farach/huggingfaceR')"
 RUN R -e "huggingfaceR::hf_python_depends()"
+RUN R -e "install.packages('jpeg')"
+
+
 
 RUN mkdir /home/llama.cpp_dir
 COPY ./llama.cpp_dir/ /home/llama.cpp_dir
