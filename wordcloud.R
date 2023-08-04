@@ -1,3 +1,13 @@
+#Loading Huggingface Sentiment Model
+library(huggingfaceR)
+
+distilBERT <- hf_load_pipeline(
+  model_id = "distilbert-base-uncased-finetuned-sst-2-english", 
+  task = "text-classification"
+)
+
+
+
 # Load required libraries
 library(shiny)
 library(ggwordcloud)
@@ -8,7 +18,8 @@ library(shinybusy)
 library(shinyWidgets) 
 library(data.table) 
 library(dplyr) 
-library(tm)
+library(tm) 
+library(shinydashboard)
 
 
 # Define the URL, header, and data
@@ -72,28 +83,6 @@ llamaData <- function(
 ui <- fluidPage(
   tags$head(
     tags$style(HTML("
-        .prompt-section {
-          font-family: Consolas, monospace;
-          font-size: 16px;
-          background-color: #f1f1f1;
-          border: 1px solid #ddd;
-          padding: 15px;
-          height: 200px;
-          overflow-y: auto;
-        }
-        #submit_btn {
-          font-size: 16px;
-          background-color: #4CAF50;
-          border: none;
-          color: white;
-          padding: 10px 16px;
-          text-align: center;
-          text-decoration: none;
-          display: inline-block;
-          margin: 4px 2px;
-          cursor: pointer;
-          border-radius: 4px;
-        }
         #apiOutput {
           font-family: Consolas, monospace;
           font-size: 16px;
@@ -121,7 +110,7 @@ ui <- fluidPage(
       actionButton("generate_wordcloud_btn", "Generate Word Cloud")
     ),
     mainPanel(
-      # Output for the word cloud
+      textOutput('sentimentOutput'),
       verbatimTextOutput("apiOutput"),
       plotOutput("wordcloud_output")
     )
@@ -137,7 +126,7 @@ server <- function(input, output,session) {
   
   
   apiData <- eventReactive(input$generate_wordcloud_btn, {
-    llamaData(
+    llamaDataCall = llamaData(
       prompt = as.character(input$prompt_input),
       temperature = as.numeric(input$temperature_input),
       top_k = as.integer(input$top_k_input),
@@ -145,17 +134,31 @@ server <- function(input, output,session) {
       n_predict = as.integer(input$n_predict_input),
       n_keep = as.integer(input$n_keep_input)
     )
+
+    sentimentCall = distilBERT(llamaDataCall$content) 
+
+    return(list(llamaDataCall, sentimentCall))
   })
+
+  output$sentimentOutput <- renderText({
+    sentiment <- apiData()[[2]][[1]]
+    paste0('Sentiment: ',sentiment$label,' Score: ' ,sentiment$score)
+
+
+  })
+
+
+
   
   output$apiOutput <- renderPrint({
-    apiData()$content
+    apiData()[[1]]$content
   })
   
 
 
 
   output$wordcloud_output <- renderPlot({
-    data <- data.frame(words = strsplit(apiData()$content, " ")) %>% 
+    data <- data.frame(words = strsplit(apiData()[[1]]$content, " ")) %>% 
       `colnames<-`('word') %>% 
       group_by(word) %>% 
       summarize(frequency = length(word)) %>% 

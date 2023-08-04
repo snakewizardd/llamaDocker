@@ -80,4 +80,14 @@ llamaData <- function(
 devOpsPrompt <- llamaData(prompt = 'tell me a joke about DevOps')
 
 
-distilBERT(devOpsPrompt$content)
+sentimentPrompt <- distilBERT(devOpsPrompt$content)
+
+sentimentPrompt[[1]]$label 
+sentimentPrompt[[1]]$score 
+
+promptCall <- llamaData(prompt='If it was sunny outside but then started to rain')$content
+sentimentPromptCall <- distilBERT(promptCall)
+sentimentLabel <- sentimentPromptCall[[1]]$label 
+sentimentScore <- sentimentPromptCall[[1]]$label 
+
+
